@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Box</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search...">
+      <button class="search-button">Search</button>
+    </div>
+    <div class="weather">
+      <h1 class="temp">28°C</h1>
+      <h2 class="city">New York</h2>
+      <h2 class="humid">Humidity: 70%</h2>
+      <h2 class="wind">Wind: 10 km/h</h2>
+    </div>
+  </div>
+
+<script>
+
+const apiKey = "414b69f46b3d57c028cf8ef3d73256dc";
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+const searchBox = document.querySelector(".search-container input");
+const searchBtn = document.querySelector(".search-container button");
+
+async function checkWeather(city){
+  const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+  var data = await response.json();
+
+  document.querySelector(".city").innerHTML = data.name;
+  document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+  document.querySelector(".humid").innerHTML = "Humidity : " + data.main.humidity + "%";
+  document.querySelector(".wind").innerHTML = "Wind speed : " + data.wind.speed + "km/h";
+
+  document.querySelector(".weather").style.display = "block";
+}
+
+searchBtn.addEventListener("click", ()=>{
+  checkWeather(searchBox.value);
+});
+
+</script>
+
+</body>
+</html>
